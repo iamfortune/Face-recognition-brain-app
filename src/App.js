@@ -87,22 +87,27 @@ class App extends Component {
       .then(response => {
         if (response) {
           fetch('http://localhost:4000/image', {
-            method: 'put',
-            headers: {'Content-Type': 'application/json'},
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
               id: this.state.user.id
             })
           })
             .then(response => response.json())
-           .then(count => {
-             this.setState({user: {
-                entries: count
-             }})
-           })
+            .then(count => {
+              this.setState(Object.assign(this.state.user, { entries: count })
+              );
+            })
+            .catch(console.log);
+
         }
-        this.displayFaceBox(this.calculateFaceLocation(response))
+        this.displayFaceBox(this.calculateFaceLocation(response));
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err)}
+        );
   }
 
   onRouteChange = (route) => {
